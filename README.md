@@ -44,7 +44,9 @@ Just some descriptive name for you,DE12340500000001234567,-50,EUR,1,7
 
 This rule states that the IBAN `DE12340500000001234567` withdraws 50 euros from your account in the time frame from the 1st and the 7th of each month. If such a transaction is found, it is ignored and no notification is done.
 
-The only thing missing is the configuration of the daemon:
+Since the daemon uses the FinTS 3.0 API provided by the banks, you have to find the URL that provides the access point to the API. Unfortunately, this is different for every bank. There was a centralized database for these URLs, but unfortunately it was taken offline. Therefore, you have to search this URL for your bank yourself (or ask your bank for it).
+
+After you found the URL for the FinTS API, the only thing missing is the configuration of the daemon:
 
 ```bash
 banking@towelie:~/banking_monitoring/config# vim config.xml
