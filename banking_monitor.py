@@ -129,7 +129,7 @@ if __name__ == '__main__':
             blz = item.attrib["blz"]
             url = item.attrib["fintsURL"]
 
-            if os.path.isfile(csv):
+            if not os.path.isfile(csv):
                 raise ValueError("No file '%s'." % csv)
 
             account = Account(name, user, password, blz, iban, url, csv)
