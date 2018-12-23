@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+
+<config>
+
+    <!--
+        The general settings for the daemon.
+        logFile - Location to place the logfile.
+        logLevel - Valid log levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
+        checkInterval - Interval in seconds in which the banking data is
+                        fetched from the server.
+    -->
+    <general
+        logFile="./logfile.log"
+        logLevel="INFO"
+        checkInterval="600" />
+
+    <!--
+        Events that can be triggered when a new bank transaction occurs.
+    -->
+    <events>
+
+        <!--
+            A single event that can be triggered when a new bank
+            transaction occurs.
+            id - ID of this event (has to be unique).
+            type - The type of the event. At the moment, only
+                   "lightweightpush" is valid here.
+            username - Username for the "lightweightpush" service.
+            password - Password for the "lightweightpush" service.
+            sharedSecret - Shared secret used to encrypt the message send to
+                           your mobile devices.
+            channel - The channel to which the message is sent to.
+        -->
+        <event
+            id="0"
+            type="lightweightpush"
+            username="myemail@alertr.de"
+            password="MySecretPassword"
+            sharedSecret="ThisMsgIsEndToEndEncrypted"
+            channel="banking" />
+
+    </events>
+
+    <!--
+        Accounts that are monitored by the daemon.
+    -->
+    <accounts>
+
+        <!--
+            A single account that is monitored.
+            name - The name of the account (this is just a descriptive name
+                   for you).
+            csvFile - The whitelist/rules that are used on the transactions
+                      in order to not trigger any event on them.
+            user - Username for your banking account.
+            password - Password for your banking account.
+            passwordType - How the password is entered. It can either be
+                           entered in plain here or base64 encoded
+                           (valid values: plain, base64).
+            iban - The IBAN of your banking account.
+            blz - The "bankleitzahl" for your banking account (routing number).
+            fintsURL - The URL to the FinTS/HBCI access point of your bank.
+        -->
+        <account
+            name="My Banking Account"
+            csvFile="./config/example_rules.csv"
+            user="1234567897"
+            password="MySecretPasswordForBanking"
+            passwordType="plain"
+            iban="DE12345600001234567897"
+            blz="12345678"
+            fintsURL="https://banking-dkb.s-fints-pt-dkb.de/fints30" >
+
+            <!--
+            Events that are triggered when a new transaction is found
+            (given by its ID).
+            -->
+            <event>0</event>
+
+        </account>
+
+    </accounts>
+
+</config>
