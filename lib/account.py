@@ -3,6 +3,7 @@ from .rules import Rules
 from .transaction import SimpleTransaction
 from .event import Event
 import datetime
+import logging
 
 
 class Account(object):
@@ -95,6 +96,8 @@ class Account(object):
 
             if not self.rules.check_allowed(obj):
 
+                logging.debug("Transaction '%s' not whitelisted. Triggering event." % str(obj))
+
                 # Trigger events.
                 for event in self.events:
                     event.trigger(self, obj)
@@ -106,9 +109,12 @@ class Account(object):
         Cleans up the account object (e.g., deletes old processed transactions).
         """
 
-        oldest_date = datetime.date.today() - datetime.timedelta(days=(self.delta_days + 1))
+        oldest_date = datetime.date.today() - datetime.timedelta(days=(self.delta_days + 10))
         for obj in list(self.triggered_transactions):
             if obj.date < oldest_date:
+
+                logging.debug("Removing '%s' from triggered list." % str(obj))
+
                 self.triggered_transactions.remove(obj)
 
     def register_event(self, event: Event):
